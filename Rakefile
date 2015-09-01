@@ -77,8 +77,8 @@ end
 desc 'run all style checks'
 task style: ['style:chef', 'style:ruby']
 
-desc 'run all tests on travis'
-task travis: ['style', 'integration:cloud']
+desc 'run all tests on cloud provider'
+task cloud: ['style', 'integration:cloud']
 
 desc 'run all tests on vagrant'
 task default: ['style', 'integration:vagrant']
