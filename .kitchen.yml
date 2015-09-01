@@ -1,0 +1,22 @@
+---
+driver:
+  name: vagrant
+
+driver_config:
+  customize:
+    cpus: 2
+    memory: 1024
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: true
+
+platforms:
+- name: debian-8.1
+- name: centos-7.1
+
+suites:
+- name: default
+  run_list:
+  - recipe[docker-apps_test::default]
+  attributes:

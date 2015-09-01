@@ -1,23 +1,34 @@
+language: ruby
 sudo: false
 addons:
   apt:
     sources:
-      - chef-current-precise
+    - chef-current-precise
     packages:
-      - chefdk
-
-# Don't `bundle install`
-install: echo "skip bundle install"
-
-# Ensure we make ChefDK's Ruby the default
+    - chefdk
+before_install:
+- eval "$(/opt/chefdk/bin/chef shell-init bash)"
+- openssl aes-256-cbc -K $encrypted_cc70f1365eea_key -iv $encrypted_cc70f1365eea_iv
+  -in .travis.ssh_do.enc -out ~/.ssh/id_do -d
+install:
+- bundle install --without kitchen_vagrant --without development
 before_script:
-  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  # We have to install chef-sugar for ChefSpec
-  - /opt/chefdk/embedded/bin/chef gem install chef-sugar
 script:
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/rubocop --version
-  - /opt/chefdk/embedded/bin/rubocop
-  - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  # - /opt/chefdk/embedded/bin/rspec spec
+- chef --version
+- bundle exec rubocop --version
+- bundle exec foodcritic --version
+- bundle exec rake style
+- bundle exec kitchen list
+- bundle exec kitchen test $KITCHEN_INSTANCE
+# - bundle exec rspec spec
+after_script:
+- bundle exec kitchen destroy
+env:
+  global:
+  - KITCHEN_LOCAL_YAML=.kitchen.cloud.yml
+  - secure: jl0JaKzjd3OaPJ0uNurDLkEFUVFhCyiq7jY+vlhzsSDIkDXNsGk6IMY8+j3pcsCPOo14Eje7gKYKyY1znzip+6+JCnyxt5lMx9KDRabWuKvbvenzJeVal+0DB684eAx63HEtyuv95TuaA06pwZpV8V+QQF8evskn1JzGzvVw9pX3dKa3Er+K06/PGY+RAbca72kJAMEQQwpatbWJbUbnnbwO1HgVG0DUIHeqWwr3rL/C1CtaQR0uCcijxXkOZdWUtB4Uh85onNZP321gpEPB7y7c4dgRvqjAnnArWHLIKXdatPQAG5PfYNDnb1ZPjreZMrQK3SwFGVXj2xWtRVp3DSgDqoXnLBGF/NRaAMO0XK8uVaX4IqCYX+l5WSg07NW7vUROV9kmMcGEc+yPgUVcHmFZ+6ojqYRI6CHdVfi5h5mpfolYhyzwIqP0udxbdGQemhzmh5XllJb8PoqBUPIKVQ1nR6pgw7Qj6tZCPB38RMbqR/EzxyEbDCLlkwuroNRceSBotnrOKyaWN6FIr4d4/as43HOMuZNY3L95yJky6vPOTIy7c0WWkaAqVPwVjm4Z3hh4+0M+SOry22pBD/Q5cx4BLfRw7+LNYejNBzCgU8T1Ztsu0wjidU4hj1CfWxCtdY2gkTbGzAjfbd/dTV9hWlSAUXXVu/haO8knA9F8EME=
+  - secure: dnIofqBPVNvGRPX7Dk9Jbe7XgXjCfaMAcUBxXHmXugHuQBXAypqDkr0AofyW2sWF/h7TOFaXJiGrm5sWIAxz5VX7n1cH+1HMoJ7drEDOp4x3ugRvOD749ibIpM7dZ7l1E1poobC7LUn+k5//tb6R/yul9d+IWG6Of/TK8ykhFge9WpIL16dYjQsL5n8XBiKPD3fWJ6wu5QNYJKP+qdekVp0PdUhd9DdNwLpOxYhcr0wAjND/PqnQLnb0CNouxr98iRG53xYwel1EefAiqQ2RxLZ8a7iXaZFodqbfoYR0tR6+MUV0PcjF7YTS3PRiQS3j04d82Stct8xhmcKbpvAWRWyB7J7j66MqGywtEsx7iWgO8wgxmHXqfqEoGwnK2bAYLfyu38KUh0nBO4SB6a85qAN7iHBfrUCIOe37ecJYYQj43EJTKZydfEtyicywpee4Lf/NafLCZJPHWiP5bJtbSQYDcepozao8xLJTbXVRU9zmCIn/yYnWqL4cer9WqUBr2Dg09wyAsWT2XProBmQawj2iMi0YSAhYSmBoi6iIZPjsY5syOlS5QWu4cFK7PE6SQCF3tOp6VAPfK2Kw5RrR91rJC4fQn6dQCRZ0hprW7w8ZFT71RJ4I1EC8ST0AyfZayfwzQ+ma6Qfy4rDi9E8FMf7EkR9DdKYTJ6Up3mCo0mg=
+  - secure: gTzpKRUD+EXBvMPogMb1C8cndDwcIV83U7aMPx3+PyaFshw7TK7WJrQprwbkwNy4FWmMNI3xRi008dkEOIcaf6AdHXHsITBw+xJ1I/PsAaNUbwjHiw2YdxCwDogsoJsCExmQWPFu7iT6csPQNO8J1PAzxwOAJgXxxgCxXPI2m/oXYF5UlC8h4BMk0rKfFW+NH2W7ooRon26Ampr/YMzrH8AJ+lYprsAN610LdG45dZ2jOyYr1riiQZawO8R8QwXWOQec7ZQZ8+AwF7dKCJGc+MBmP8P+8K/z8Z3e7/FSUbzMV5yxGyYYbbHcm+GSK96yIqvCD3BOJcuVzG8mzAF8vwkghdevg6wIG73gSNTtVwqwvOeFGjmyu/T/Lx1ekXjBnbFDqFaH+XC2/ycgvtCx1a8KHrL+rafiRDhj2N3MNpDGHSj6+kMsT7dM95InPc+fUSlkTmgz9kFBLTFKtX9ynDLA1BfL/hnHl8l8MT+tgOaald27ffUr7dTOZS1ZaTOozsdtOvvQkf8KOwdxmnX8ZAUlFd80Iii9JKceg1uQ+a2HTrh8MO19ksh7Gdt4l6UcKieOTwIK3XTsx5gAAxQT7JN2hLWgv/soIgdkeiLE3qhqLWFI0hlHK4WszmIvGVK0ZATMtBlwTQrF4tduFCSr/qDqCbpvM4oVtbO9zHlUmJM=
+  matrix:
+  - KITCHEN_INSTANCE="default-centos-70"
+  - KITCHEN_INSTANCE="default-debian-81"

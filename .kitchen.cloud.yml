@@ -1,0 +1,28 @@
+---
+driver_config:
+  digitalocean_access_token: <%= ENV['DIGITAL_OCEAN_ACCESS_TOKEN'] %>
+
+provisioner:
+  name: chef_zero
+  sudo: false
+  require_chef_omnibus: true
+
+platforms:
+- name: centos-7.0
+  driver_plugin: digitalocean
+  driver_config:
+    size: 1gb
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+- name: debian-8.1
+  driver_plugin: digitalocean
+  driver_config:
+    size: 1gb
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+suites:
+- name: default
+  run_list:
+    - recipe[docker-apps_test::default]
+  attributes:

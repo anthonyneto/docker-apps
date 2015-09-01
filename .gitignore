@@ -1,41 +1,20 @@
-# Berkshelf
-Berksfile.lock
-/cookbooks
-
-# Bundler
-.bundle
-bin/
-Gemfile.lock
-
-# Chef
-metadata.json
-tmp/
-
-# Editors
 *~
 *#
 .#*
 \#*#
 .*.sw[a-z]
-*.sublime-project
-*.sublime-workspace
 *.un~
-.idea/
+pkg/
 
-# OS files
-.DS_Store
+# Berkshelf
+.vagrant
+/cookbooks
+Berksfile.lock
 
-# rbenv
-.ruby-version
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
 
-# Test Kitchen
 .kitchen/
 .kitchen.local.yml
-
-# Vagrant
-.vagrant
-
-# vagrant-cache
-.cache
-
-*.png
