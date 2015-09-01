@@ -14,5 +14,10 @@ user 'media' do
   shell '/bin/false'
 end
 
-Chef::Log.fatal('Storage directory does not exist!') unless Dir.exist?(node['storage']['hdd'])
-Chef::Log.fatal('SSD directory does not exist!') unless Dir.exist?(node['storage']['ssd'])
+ruby_block 'check_storage' do
+  block do
+    Chef::Log.fatal('Storage directory does not exist!') unless Dir.exist?(node['storage']['hdd'])
+    Chef::Log.fatal('SSD directory does not exist!') unless Dir.exist?(node['storage']['ssd'])
+    raise
+  end
+end
