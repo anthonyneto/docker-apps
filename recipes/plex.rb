@@ -15,7 +15,7 @@ docker_container 'plex' do
   network_mode 'host'
   port '32400:32400'
   env [
-    "PLEXPASS=#{node['docker-apps']['plex']['plexpass']}",
+    "VERSION=#{node['docker-apps']['plex']['version']}",
     'PUID=10000',
     'PGID=10000'
   ]
