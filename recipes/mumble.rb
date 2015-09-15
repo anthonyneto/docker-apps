@@ -16,4 +16,5 @@ docker_container 'mumble' do
     "#{node['storage']['hdd']}/apps/mumble/config:/config",
     "#{node['storage']['hdd']}/apps/mumble/data:/data"
   ]
+  action :run
 end

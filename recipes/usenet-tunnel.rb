@@ -15,4 +15,5 @@ docker_container 'usenet-tunnel' do
   env [
     "AUTHORIZED_KEYS=#{node['docker-apps']['usenet-tunnel']['auth-keys']}"
   ]
+  action :run
 end
