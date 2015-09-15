@@ -21,5 +21,5 @@ docker_container 'plexpy' do
     "#{node['storage']['hdd']}/apps/plexpy:/config",
     "#{node['storage']['hdd']}/apps/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs:ro"
   ]
-  action :run
+  # action :run
 end

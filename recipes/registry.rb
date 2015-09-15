@@ -16,5 +16,5 @@ docker_container 'registry' do
   binds [
     "#{node['storage']['hdd']}/docker/registry:/var/lib/registry"
   ]
-  action :run
+  # action :run
 end

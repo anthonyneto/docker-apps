@@ -12,5 +12,5 @@ end
 docker_container 'ventrilo' do
   repo 'akursar/ventrilo'
   port ['3784:3784/tcp', '3784:3784/udp']
-  action :run
+  # action :run
 end
