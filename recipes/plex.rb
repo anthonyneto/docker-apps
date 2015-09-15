@@ -23,7 +23,10 @@ docker_container 'plex' do
     "#{node['storage']['hdd']}/apps/plexmediaserver:/config",
     "#{node['storage']['ssd']}/plexmediaserver/transcoding:/config/transcoding",
     "#{node['storage']['hdd']}/media/movies:/data/movies:ro",
-    "#{node['storage']['hdd']}/media/tv:/data/tv:ro"
+    "#{node['storage']['hdd']}/media/tv:/data/tv:ro",
+    "#{node['storage']['hdd']}/media/music:/data/music:ro",
+    "#{node['storage']['hdd']}/media/photos:/data/photos:ro",
+    "#{node['storage']['hdd']}/media/videos:/data/videos:ro"
   ]
   # action :run
 end
