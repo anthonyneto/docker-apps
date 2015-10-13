@@ -21,5 +21,5 @@ docker_container 'nzbget' do
     "#{node['storage']['hdd']}/apps/nzbget:/config",
     "#{node['storage']['hdd']}/downloads:/downloads"
   ]
-  # action :run
+  action :run
 end

@@ -22,5 +22,5 @@ docker_container 'couchpotato' do
     "#{node['storage']['hdd']}/downloads:/downloads",
     "#{node['storage']['hdd']}/media/movies:/movies"
   ]
-  # action :run
+  action :run
 end
