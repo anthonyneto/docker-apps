@@ -22,11 +22,11 @@ docker_container 'plex' do
   binds [
     "#{node['storage']['hdd']}/apps/plexmediaserver:/config",
     "#{node['storage']['ssd']}/plexmediaserver/transcoding:/config/transcoding",
-    "#{node['storage']['hdd']}/media/movies:/data/movies:ro",
-    "#{node['storage']['hdd']}/media/tv:/data/tv:ro",
-    "#{node['storage']['hdd']}/media/music:/data/music:ro",
-    "#{node['storage']['hdd']}/media/photos:/data/photos:ro",
-    "#{node['storage']['hdd']}/media/videos:/data/videos:ro"
+    "#{node['storage']['hdd']}/media/movies:/data/movies",
+    "#{node['storage']['hdd']}/media/tv:/data/tv",
+    "#{node['storage']['hdd']}/media/music:/data/music",
+    "#{node['storage']['hdd']}/media/photos:/data/photos",
+    "#{node['storage']['hdd']}/media/videos:/data/videos"
   ]
   action :run
 end
