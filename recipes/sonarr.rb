@@ -22,5 +22,5 @@ docker_container 'sonarr' do
     "#{node['storage']['hdd']}/downloads:/downloads",
     "#{node['storage']['hdd']}/media/tv:/tv"
   ]
-  # action :run
+  action :run
 end

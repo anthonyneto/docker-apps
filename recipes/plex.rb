@@ -28,5 +28,5 @@ docker_container 'plex' do
     "#{node['storage']['hdd']}/media/photos:/data/photos:ro",
     "#{node['storage']['hdd']}/media/videos:/data/videos:ro"
   ]
-  # action :run
+  action :run
 end
