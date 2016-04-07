@@ -36,5 +36,6 @@ docker_container 'usenet-tunnel-outgoing' do
   binds [
     "#{node['storage']['hdd']}/apps/usenet-tunnel-outgoing:/root/.ssh:ro"
   ]
+  restart_policy 'on-failure'
   action :run
 end
